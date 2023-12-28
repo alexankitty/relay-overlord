@@ -5,5 +5,6 @@ A direction of the project is included in [notes.txt](https://github.com/alexank
 
 # What it is not
 It won't make you dinner, but with a donation it just might.  
-ᴵ'ᵐ ˡᵉᵍᵃˡˡʸ ʳᵉᵠᵘᶦʳᵉᵈ ᵗᵒ ᵗᵉˡˡ ʸᵒᵘ ᵗʰᵃᵗ ᶦᵗ ʷᵒⁿ'ᵗ, ᵇᵘᵗ ʰᵒᵖᵉ ʸᵒᵘ ˡᵃᵘᵍʰᵉᵈ ᵃᵗ ᵗʰᵉ ᶦᵈᵉᵃ ᵃⁿʸʷᵃʸ.  
+<sub>I'm legally required to tell you it won't but I hope it made you laugh anyway.</sub>
+  
 Consider supporting the project on [ko-fi](ko-fi.com/alexankitty)
