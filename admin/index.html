@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link
+      rel="icon"
+      href="/favicon.svg"
+    />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Relay Overlord</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/loader.css"
+    />
+  </head>
+
+  <body>
+    <div id="app">
+      <div id="loading-bg">
+        <div class="loading-logo">
+          <img
+            src="/logo.png"
+            height="50"
+            alt="Logo"
+          />
+        </div>
+        <div class="loading">
+          <div class="effect-1 effects"></div>
+          <div class="effect-2 effects"></div>
+          <div class="effect-3 effects"></div>
+        </div>
+      </div>
+    </div>
+    <script
+      type="module"
+      src="/src/main.js"
+    ></script>
+    <script>
+      const loaderColor = localStorage.getItem('Materio-initial-loader-bg') || '#FFFFFF'
+      const primaryColor = localStorage.getItem('Materio-initial-loader-color') || '#9155FD'
+
+
+      const colorFavicon = (incomingColor) => {
+        const img = new Image();
+        img.src = '/favicon.svg';
+        //hack to wait for image to load
+        img.onload = function () {
+          const canvas = document.createElement('canvas');
+          canvas.width = 32;
+          canvas.height = 32;
+          const ctx = canvas.getContext('2d');
+          const link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+          link.type = 'image/x-icon';
+          document.getElementsByTagName('head')[0].appendChild(link);
+          const color = incomingColor;
+          ctx.drawImage(img, 1, 1, canvas.width - 2, canvas.height - 2);
+          ctx.globalCompositeOperation = 'source-atop';
+          ctx.fillStyle = color;
+          ctx.fillRect(0, 0, 96, 96);
+          ctx.globalCompositeOperation = 'destination-over';
+          const colorHSL = hexToHSL(color)
+          if(colorHSL.l > 0.6) {
+            ctx.fillStyle = "#24283D";
+          }
+          else {
+            ctx.fillStyle = "#F4F5FA";
+          }
+          ctx.beginPath();
+          ctx.arc(16, 16, 19, 0, 2 * Math.PI);
+          ctx.fill();
+          link.href = canvas.toDataURL("image/x-icon");
+
+          const meta = document.querySelector("meta[name='theme-color']") || document.createElement('meta');
+          meta.name = "theme-color";
+          document.getElementsByTagName('head')[0].appendChild(meta);
+          meta.content = color;
+          console.log(ctx)
+        }
+      }
+      colorFavicon(primaryColor);
+
+      const hexToHSL = (hex) => {
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+          r = parseInt(result[1], 16);
+          g = parseInt(result[2], 16);
+          b = parseInt(result[3], 16);
+          r /= 255, g /= 255, b /= 255;
+          var max = Math.max(r, g, b), min = Math.min(r, g, b);
+          var h, s, l = (max + min) / 2;
+          if(max == min){
+            h = s = 0; // achromatic
+          }else{
+            var d = max - min;
+            s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+            switch(max){
+              case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+              case g: h = (b - r) / d + 2; break;
+              case b: h = (r - g) / d + 4; break;
+            }
+            h /= 6;
+          }
+        var HSL = new Object();
+        HSL['h']=h;
+        HSL['s']=s;
+        HSL['l']=l;
+        return HSL;
+      }
+
+      if (loaderColor) document.documentElement.style.setProperty('--initial-loader-bg', loaderColor)
+      if (primaryColor) document.documentElement.style.setProperty('--initial-loader-color', primaryColor)
+    </script>
+  </body>
+</html>

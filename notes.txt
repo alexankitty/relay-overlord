@@ -1,0 +1,175 @@
+Dashboard Page allowing toggle of allowed relays
+Groups to assign relays and edit permissions
+individual permissions for the same
+Sensors page (later) ADC-GPIO
+Events page
+Log Page
+
+Devices page to add devices. Generics for basic GPIO and i2c. Specific for MOD-IO. Keep the interface easily extensible so it can be open sourced and additional can be added.
+
+Devices need to be able to provide certain things to the system, ex: the device controller provides x relays, x ADCs, x GPIOs, etc. ADC needs to be able to set a formula for its output if it's generic, otherwise its parent device controller needs to provide its output along with settings to change the measure. ADC also needs to provide its voltage level and raw output.
+
+Generic i2c needs to set which bus it's on, which address, and add an option to add components like relays, adc, gpio. 
+
+Components should break down further into distinct or grouped so the controller knows what to keep track of, relays will take a write address, and separately a read address. If no read address is provided, the device controller needs to handle its own state. 
+
+GPIO will take a write address if output (read if capable otherwise device controller needs to track) for input GPIO will only take a read. 
+
+For ADC device will need to take a write address for output, and a read for input as needed. 
+
+For grouped devices, like 4 relays on one write address, the interface needs to break down each relay into its respective bits.
+
+For generic GPIO the input and output should take whichever pin, output should allow setting high/low, input should read logic high or low. Allow setting output type as digital or relay (For generic relays not handled by a controller).
+
+For SPI devices, tbd.
+
+Add an events page that allows the toggling of GPIOs and Relays based on GPIO, ADC threshold, if another relay is pulled high, schedule, and allow for relay latching where one input sets it high but requires a manual reset or a different input to set it low.
+
+Relay definitions need to have open/close behaviors: Momentary, Toggle - Events should co-exist with these behaviors as these only apply to dashboard. Add an inverse logic option. Add a startup state.
+
+Logs - Log when relay is toggled, when a setting is changed, by who, if a sensor reaches a threshold.
+
+Backend API
+
+/api/devices/
+/api/devices/create
+/api/devices/edit
+/api/devices/delete
+
+/api/templates/
+/api/templates/create
+/api/templates/edit
+/api/templates/delete
+
+/api/events
+/api/events/create
+/api/events/edit
+/api/events/delete
+
+/api/users/
+/api/users/create
+/api/users/edit
+/api/users/delete
+
+/api/groups/
+/api/groups/create
+/api/groups/edit
+/api/groups/delete
+
+(consider get put post delete scheme instead of an endpoint for each action)
+
+devices: {
+    type: i2c, gpio, spi //string
+    address: 0x58, pin //int/hex
+    relays: {
+        isGrouped: true //bool
+        0: {
+            id: 0 //int
+            name: Relay-Name //string
+            active: true //bool
+            inverse: true //bool
+            disabled: false //bool
+            startup: on, off, last //string
+            events: {
+                0: {
+                    type: cron, shared, input, threshold //string
+                    isLatching: true //bool
+                    disabled: false //bool
+                }
+            }
+        }
+    }
+    adc: {
+        isGrouped: false //bool
+        0: {
+            id: 0 //int
+            type: input, output //string
+            value: 1234 //int/hex
+            events: {
+                0: {
+                    type:
+                    isLatching:
+                    disabled:
+                }
+            }
+        }
+    }
+    gpio: {
+        isGrouped: false //bool
+        0: {
+            id: 0 //int
+            type: input, output //string
+            active: true //bool
+            events: {
+                0: {
+                    type:
+                    isLatching:
+                    disabled:
+                }
+            }
+        }
+    }
+}
+
+templates: {
+    type: relay, adc, gpio // string
+    addressingScheme: bitfield, address //string
+    setAddress: 0x10 //int/hex
+    getAddress: 0x11 //int/hex -- if not present, program tracks relay state
+    count: 4 //int
+    start: 0x1 //int/hex/bit
+    end: 0x4 //int/hex/bit
+}
+
+events: {
+    type: cron, shared, input, threshold //string
+    value: 1234 //string - for adc usage
+    isLatching: true //bool
+    disabled: true //bool
+    has: {
+        relays: {
+            0... /etc
+        }
+        adc: {
+            //tbd, needs a more advanced implementation
+        }
+    }
+}
+
+users: {
+    id: 0, //int
+    name: "test"
+    email: "test@test.com"
+    groups: [admin, users]
+    permissions: {
+        relays: [0, 1, 2] //array of relay ids
+        adc: [0, 1 , 2] //array of adc ids
+        gpio: [0,1,2] //array of gpio ids
+        pages: ["relays", "admin"] //array of page strings
+        users:  2 // int, permission level, 0 none, 1 view, 2 admin
+        groups: 2 // int, permission level, 0 none, 1 view, 2 admin
+    }
+}
+
+groups: {
+    id: 0, //int
+    name: "test"
+    members: ["test", "test2"]
+    permissions: {
+        relays: [0, 1, 2] //array of relay ids
+        adc: [0, 1 , 2] //array of adc ids
+        gpio: [0,1,2] //array of gpio ids
+        pages: ["relays", "admin"] //array of page strings
+        users:  2 // int, permission level, 0 none, 1 view, 2 admin
+        groups: 2 // int, permission level, 0 none, 1 view, 2 admin
+    }
+}
+
+
+frontend
+
+/ - main relay dashboard
+/relays - relay configuration page
+/users - user configuration page
+/templates - device template configuration page
+/events - make relays act on system events
