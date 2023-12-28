@@ -24,12 +24,12 @@ export const useUserStore = defineStore('user', {
   },
   actions: {
     init() {
-      this.isAdmin()
+      this.isAuth()
       this.setUsers()
       this.setRoles()
       this.setToken()
     },
-    isAdmin() {
+    isAuth() {
       return request('get', 'admin/check').then(res => {
         return res?.isSuccess || false
       })
@@ -85,6 +85,12 @@ export const useUserStore = defineStore('user', {
             found.isActive = isActive
             found.roles = this.getRolesByIds(roles)
           }
+        }
+      })
+    },
+    async createUser(payload) {
+      await request('post', `admin/users/`, { ...payload }, 20000).then(res => {
+        if (res?.data) {
         }
       })
     },

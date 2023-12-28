@@ -4,24 +4,23 @@ const userStore = useUserStore()
 const messageStore = useMessageStore()
 
 const props = defineProps({
-  editing: Boolean,
-  user: Object,
+  creating: Boolean,
 })
 
-const emit = defineEmits(['updateEditing'])
+const emit = defineEmits(['updateCreating'])
 
-const initialFormValues = { username: '', email: '', isActive: false, password: '', roles: [] }
+const initialFormValues = { username: '', email: '', password: '', roles: [] }
 const form = ref({ ...initialFormValues })
 
 const isPasswordVisible = ref(false)
 
-const update = () => {
+const createUser = () => {
   if (!valid.value) {
     const error = 'Please fill the form correctly!'
     messageStore.setError({ error })
   } else {
-    userStore.updateUser({ ...form.value })
-    emit('updateEditing', false)
+    userStore.createUser({ ...form.value })
+    emit('updateCreating', false)
   }
 }
 
@@ -43,7 +42,7 @@ onMounted(() => {
 
 <template>
   <VForm
-    v-if="editing"
+    v-if="creating"
     v-model="valid"
     lazy-validation
     @submit.prevent="() => {}"
@@ -57,7 +56,6 @@ onMounted(() => {
           :rules="rules.username"
         />
       </VCol>
-
       <!-- email -->
       <VCol cols="12">
         <VTextField
@@ -76,40 +74,11 @@ onMounted(() => {
           :rules="rules.password"
           :type="isPasswordVisible ? 'text' : 'password'"
           :append-inner-icon="isPasswordVisible ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
-          hint="You can not display users' current passwords here"
           @click:append-inner="isPasswordVisible = !isPasswordVisible"
         />
-      </VCol>
+        </VCol>
 
-      <!-- createdTime -->
-      <VCol cols="12">
-        <VTextField
-          v-model="form.createdTime"
-          label="Created Time"
-          disabled
-        />
-      </VCol>
-
-      <!-- isActive -->
-      <VCol cols="12">
-        <VRadioGroup
-          v-model="form.isActive"
-          inline
-        >
-          <VRadio :value="true">
-            <template #label>
-              <strong class="text-success">Active</strong>
-            </template>
-          </VRadio>
-          <VRadio :value="false">
-            <template #label>
-              <strong class="text-error">Passive</strong>
-            </template>
-          </VRadio>
-        </VRadioGroup>
-      </VCol>
-
-      <VCol cols="12">
+        <VCol cols="12">
         <VSelect
           v-model="form.roles"
           :rules="rules.roles"
@@ -122,11 +91,11 @@ onMounted(() => {
         />
       </VCol>
 
-      <VCol cols="6">
+        <VCol cols="6">
         <VBtn
           block
           color="error"
-          @click="emit('updateEditing', false)"
+          @click="emit('updateCreating', false)"
         >
           Cancel
         </VBtn>
@@ -135,9 +104,9 @@ onMounted(() => {
       <VCol cols="6">
         <VBtn
           block
-          @click="update"
+          @click="createUser"
         >
-          Update
+          Create User
         </VBtn>
       </VCol>
     </VRow>

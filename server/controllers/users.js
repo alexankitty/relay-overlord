@@ -20,7 +20,7 @@ exports.updateUser = async (req, res) => {
     const { _id, username, email, isActive, password } = req.body
     let { roles } = req.body
 
-    if (username && username.length < 8) {
+    if (username && username.length < 5) {
       anyError.push('Username should be more than 7 characters.')
     }
 

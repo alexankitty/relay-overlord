@@ -2,6 +2,8 @@ import { setupLayouts } from 'virtual:generated-layouts'
 import { createRouter, createWebHistory } from 'vue-router'
 import routes from '~pages'
 import { useUserStore } from '@/store'
+import login from '@/authpages/login.vue'
+import register from '@/authpages/register.vue'
 import singlePost from '@/pages/post.vue'
 import commentsOfPost from '@/pages/comments.vue'
 import singlePostCategory from '@/pages/postCategory.vue'
@@ -14,6 +16,18 @@ const router = createRouter({
   scrollBehavior() {
     return { top: 0 }
   },
+})
+
+router.addRoute({
+  name: 'login',
+  path: '/login',
+  components: { default: login },
+})
+
+router.addRoute({
+  name: 'register',
+  path: '/register',
+  components: { default: register },
 })
 
 router.addRoute({
@@ -36,20 +50,20 @@ router.addRoute({
 
 router.beforeEach(async (to, from) => {
   const userStore = await useUserStore()
-  let isAdmin = false
+  let isAuth = false
 
   if (!(to.name === 'login' || to.name === 'register')) {
-    isAdmin = (await userStore.isAdmin()) === true
+    isAuth = (await userStore.isAuth()) === true
   }
 
   if (
     // make sure the user is authenticated ❗️ Avoid an infinite redirect
-    !isAdmin &&
+    !isAuth &&
     !(to.name === 'login' || to.name === 'register')
   ) {
     // redirect the user to the login page
     return { name: 'login' }
-  } else if (isAdmin && (to.name === 'login' || to.name === 'register')) {
+  } else if (isAuth && (to.name === 'login' || to.name === 'register')) {
     return { name: 'index' }
   }
 })

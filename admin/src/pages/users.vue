@@ -2,17 +2,23 @@
 import { useMessageStore, useUserStore } from '@/store'
 import Edit from '@/components/Users/Edit.vue'
 import Delete from '@/components/Users/Delete.vue'
+import New from '@/components/Users/New.vue'
 
 const userStore = useUserStore()
 const messageStore = useMessageStore()
 
 const data = computed(() => userStore.getUsers)
 const editing = ref(false)
+const creating = ref(false)
 const user = ref({})
 
 const edit = value => {
   user.value = { ...value }
   editing.value = true
+}
+
+const newUser = () => {
+  creating.value = true
 }
 
 const headers = ref([
@@ -57,8 +63,22 @@ const headers = ref([
     :user="user"
     @updateEditing="val => (editing = val)"
   />
+
+  <New
+    v-if="creating"
+    :creating="creating"
+    @updateCreating="val => (creating = val)"
+  />
+
+  <VBtn
+    @click="newUser()"
+    v-if="!editing && !creating"
+    >
+    {{ "New User" }}
+  </VBtn>
+  <VSpacer style="height: 12px"/>
   <VDataTable
-    v-if="!editing"
+    v-if="!editing && !creating"
     items-per-page="10"
     :headers="headers"
     :items="data"

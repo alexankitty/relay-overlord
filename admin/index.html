@@ -16,17 +16,15 @@
       type="text/css"
       href="/loader.css"
     />
+    <script type="text/javascript" src="https://unpkg.com/external-svg-loader@latest/svg-loader.min.js" async></script>
   </head>
 
   <body>
     <div id="app">
       <div id="loading-bg">
         <div class="loading-logo">
-          <img
-            src="/logo.png"
-            height="50"
-            alt="Logo"
-          />
+          <svg data-src="/logo.svg" style="color: var(--initial-loader-color)"></svg>
+          </object>
         </div>
         <div class="loading">
           <div class="effect-1 effects"></div>
@@ -78,7 +76,6 @@
           meta.name = "theme-color";
           document.getElementsByTagName('head')[0].appendChild(meta);
           meta.content = color;
-          console.log(ctx)
         }
       }
       colorFavicon(primaryColor);

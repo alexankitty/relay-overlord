@@ -3544,6 +3544,13 @@ execa@^5.1.1:
     signal-exit "^3.0.3"
     strip-final-newline "^2.0.0"
 
+external-svg-loader@^1.6.10:
+  version "1.6.10"
+  resolved "https://registry.yarnpkg.com/external-svg-loader/-/external-svg-loader-1.6.10.tgz#92f962a9cf4663cb962e63649edf2341e6b8a084"
+  integrity sha512-VxFQKN9jr9hwpwmO4d/IJBe1Cb+fzy9Xm6iQwW+Q0yywze7LcuCXk+SVKHfG9Ej0z2AwnJ/C4UcRdyXnMfGzuQ==
+  dependencies:
+    idb-keyval "^6.2.0"
+
 extract-comments@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/extract-comments/-/extract-comments-1.1.0.tgz#b90bca033a056bd69b8ba1c6b6b120fc2ee95c18"
@@ -3975,6 +3982,11 @@ human-signals@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/human-signals/-/human-signals-2.1.0.tgz#dc91fcba42e4d06e4abaed33b3e7a3c02f514ea0"
   integrity sha512-B4FFZ6q/T2jhhksgkbEW3HBvWIfDW85snkQgawt07S7J5QXTk6BkNV+0yAeZrM5QpMAdYlocGoljn0sJ/WQkFw==
+
+idb-keyval@^6.2.0:
+  version "6.2.1"
+  resolved "https://registry.yarnpkg.com/idb-keyval/-/idb-keyval-6.2.1.tgz#94516d625346d16f56f3b33855da11bfded2db33"
+  integrity sha512-8Sb3veuYCyrZL+VBt9LJfZjLUPWVvqn8tG28VqYNFCo43KHcKuq+b4EiXGeuaLAQWL2YmyDgMp2aSpH9JHsEQg==
 
 ieee754@^1.1.13:
   version "1.2.1"

@@ -22,6 +22,7 @@ const drawer = ref(lgAndUp.value)
     flat
     class="px-6 layout-navbar"
     style="background: transparent"
+    v-if="$route.name !=='login'"
   >
     <template
       v-if="mdAndDown"

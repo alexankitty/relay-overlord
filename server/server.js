@@ -7,12 +7,12 @@ const cors = require('cors')
 // cors settings if you need
 const corsOptions = {
   origin: [
-    'http://localhost:8080',
-    'http://localhost:3000',
-    'http://localhost:3001',
-    'http://localhost:4000',
-    'http://localhost:5000',
-    'http://localhost:5173'
+    `http://${process.env.HOST_ADDRESS}:8080`,
+    `http://${process.env.HOST_ADDRESS}:3000`,
+    `http://${process.env.HOST_ADDRESS}:3001`,
+    `http://${process.env.HOST_ADDRESS}:4000`,
+    `http://${process.env.HOST_ADDRESS}:5000`,
+    `http://${process.env.HOST_ADDRESS}:5173`
   ]
 }
 

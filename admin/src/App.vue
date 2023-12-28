@@ -10,8 +10,8 @@ import UserProfile from '@/layouts/components/UserProfile.vue'
 
 <template>
   <VApp>
-    <VLayout class="layout-wrapper layout-nav-type-vertical">
-      <VerticalNavLayout>
+    <VLayout class="layout-wrapper layout-nav-type-vertical" >
+      <VerticalNavLayout >
         <!-- 👉 navbar -->
         <template #navbar>
           <VTextField

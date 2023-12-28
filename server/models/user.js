@@ -24,7 +24,19 @@ const User = mongoose.model(
     authCode: {
       type: String,
       required: false
-    }
+    },
+    permissions: {
+      type: mongoose.Types.ObjectId,
+      ref: "Permission"},
+    relays: {
+      type: mongoose.Types.ObjectId,
+      ref: "Relay"},
+    adcs: {
+      type: mongoose.Types.ObjectId,
+      ref: "ADC"},
+    gpios: {
+      type: mongoose.Types.ObjectId,
+      ref: "GPIO"}
   })
 )
 

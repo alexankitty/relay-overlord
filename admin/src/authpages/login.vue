@@ -5,7 +5,6 @@ import authV1Tree2 from '@/assets/images/pages/auth-v1-tree-2.png'
 import authV1Tree from '@/assets/images/pages/auth-v1-tree.png'
 import logo from '@/assets/logo.svg?raw'
 import { request } from '@/utils'
-import AuthProvider from '@/views/pages/authentication/AuthProvider.vue'
 import { useTheme } from 'vuetify'
 import { useMessageStore } from '@/store'
 import router from '@/router'
@@ -70,17 +69,12 @@ const isPasswordVisible = ref(false)
       <VCardItem class="justify-center">
         <template #prepend>
           <div class="d-flex">
-            <div v-html="logo" />
+            <div v-html="logo" style="color: var(--initial-loader-color)" />
           </div>
         </template>
 
         <VCardTitle class="font-weight-semibold text-2xl text-uppercase"> Relay Overlord </VCardTitle>
       </VCardItem>
-
-      <VCardText class="pt-2">
-        <h5 class="text-h5 font-weight-semibold mb-1">Vue 3 - Express - Vuexy 👋🏻</h5>
-        <p class="mb-0">Please sign-in to your account and start the adventure</p>
-      </VCardText>
 
       <VCardText>
         <VForm
@@ -134,36 +128,6 @@ const isPasswordVisible = ref(false)
               >
                 Login
               </VBtn>
-            </VCol>
-
-            <VCol
-              cols="12"
-              class="text-center text-base"
-            >
-              <span>New on our platform?</span>
-              <RouterLink
-                class="text-primary ms-2"
-                :to="{ name: 'register' }"
-              >
-                Create an account
-              </RouterLink>
-            </VCol>
-
-            <VCol
-              cols="12"
-              class="d-flex align-center"
-            >
-              <VDivider />
-              <span class="mx-4">or</span>
-              <VDivider />
-            </VCol>
-
-            <!-- auth providers -->
-            <VCol
-              cols="12"
-              class="text-center"
-            >
-              <AuthProvider />
             </VCol>
           </VRow>
         </VForm>

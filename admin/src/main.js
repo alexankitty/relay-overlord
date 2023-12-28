@@ -8,10 +8,12 @@ import '@/styles/styles.scss'
 import '@core/scss/index.scss'
 import { createPinia } from 'pinia'
 import { createApp } from 'vue'
+import './utils'
 
 loadFonts()
 const app = createApp(App)
 
+//submit available routes to server
 app.use(vuetify)
 app.use(createPinia())
 app.use(router)
