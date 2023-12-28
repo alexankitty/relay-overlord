@@ -7,4 +7,6 @@ A direction of the project is included in [notes.txt](https://github.com/alexank
 It won't make you dinner, but with a donation it just might.  
 <sub>I'm legally required to tell you it won't but I hope it made you laugh anyway.</sub>
   
-Consider supporting the project on [ko-fi](ko-fi.com/alexankitty)
+Consider supporting the project on ko-fi
+  
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Q5Q4IFNAO)
