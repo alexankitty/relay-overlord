@@ -8,12 +8,10 @@ const dbQuery = require('../../middlewares/utils/dbQuery')
 const Role = require('../../models/role')
 const User = require('../../models/user')
 
-const createUserMiddleware = [getUser, checkDuplicateUsernameOrEmail, checkRolesExisted]
-
 router
   .route('/')
-  .get(dbQuery(User, [{ path: 'roles', select: 'name' }], ['password']), getGeneric)
-  .post(createUserMiddleware, controller.createUser)
+  .get(dbQuery(User, [{ path: 'roles' }], ['password']), getGeneric)
+  .post(checkDuplicateUsernameOrEmail, checkRolesExisted, controller.createUser)
 
 router.route('/roles').get(dbQuery(Role), getGeneric)
 

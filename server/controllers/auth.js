@@ -44,15 +44,10 @@ exports.signup = async (req, res) => {
             // signin(req, res) // if everything is ok, we are gonna signin automatically
             // we disabled this feature for now since the user should be active first to be loged in
 
-            res.status(200).send(
-              response.successed(
-                res,
-                {
-                  username,
-                  email
-                },
-                STRINGS.userCreated
-              )
+            response.successed(
+              res,
+              {...user.toObject()},
+              STRINGS.userCreated
             )
           })
         })

@@ -90,7 +90,7 @@ const headers = ref([
         :color="value === true ? 'success' : 'error'"
         disabled
       >
-        {{ value ? 'Active' : 'Not Active' }}
+        {{ value ? 'Enabled' : 'Disabled' }}
       </VBtn>
     </template>
     <template v-slot:item.roles="{ value }">

@@ -51,6 +51,7 @@ export const useUserStore = defineStore('user', {
     async setUsers() {
       await request('get', 'admin/users').then(res => {
         if (res?.data) {
+          console.log(res.data)
           this.users = [...res.data]
         }
       })
@@ -89,8 +90,9 @@ export const useUserStore = defineStore('user', {
       })
     },
     async createUser(payload) {
-      await request('post', `admin/users/`, { ...payload }, 20000).then(res => {
+      await request('post', `admin/users`, { ...payload }, 20000).then(res => {
         if (res?.data) {
+          this.users.push({...res.data})
         }
       })
     },
