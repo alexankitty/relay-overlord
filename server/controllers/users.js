@@ -10,19 +10,9 @@ exports.getUser = async (req, res) => {
   try {
     const { _id, createdTime, email, isActive, roles, username } = res.user
     const user = { _id, createdTime, email, isActive, roles, username }
-
+    console.log(res.user)
     response.successed(res, user)
   } catch (err) {
-    res.status(200).json(new response.fail(err.message))
-  }
-}
-
-exports.getUsers = async (req, res) => {
-  try{
-    const users = await User.find().toObject()
-    console.log(users)
-    response.successed(res, users)
-  }catch (err) {
     res.status(200).json(new response.fail(err.message))
   }
 }
@@ -48,15 +38,6 @@ exports.updateUser = async (req, res) => {
     if (roles.length === 0) {
       anyError.push(STRINGS.rolesCanNotBeEmpty)
     }
-    else {
-      Role.find({ "_id": { $in: roles } }).exec((err, role) => {
-        if (err) {
-          return res.status(200).send(new response.fail(err))
-        }
-          res.user.roles = role
-
-      })
-    }
 
     if (anyError.length > 0) {
       response.failed(res, anyError)
@@ -76,8 +57,23 @@ exports.updateUser = async (req, res) => {
       if (isActive) {
         res.user.isActive = isActive
       }
-      res.user.markModified('roles')
-      await res.user.save(async (err, user ) => console.log(user.toObject()))
+      await res.user.save( async (err, user) => {
+        if (err) {
+          return res.status(200).send(new response.fail(err))
+        }
+        Role.find({ "_id": { $in: roles } }, async (err, role) => {
+          if (err) {
+            return res.status(200).send(new response.fail(err))
+          }
+  
+          user.roles = role
+          await user.save((err, user) => {
+            if (err) {
+              return res.status(200).send(new response.fail(err))
+            }
+          })
+      })
+    })
       response.successed(res, { ...res.user.toObject() }, 'User has been successfully updated!')
     }
   } catch (err) {
@@ -134,7 +130,6 @@ exports.createUser = async (req, res) => {
         }
 
         user.roles = role
-        console.log(role)
         await user.save((err, user) => {
           if (err) {
             return res.status(200).send(new response.fail(err))
