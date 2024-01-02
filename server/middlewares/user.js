@@ -1,7 +1,6 @@
 const User = require('../models/user')
 const { response } = require('../classes')
 
-
 exports.getUser = async (req, res, next) => {
   let user
   try {

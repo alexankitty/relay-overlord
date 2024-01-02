@@ -10,7 +10,6 @@ exports.getUser = async (req, res) => {
   try {
     const { _id, createdTime, email, isActive, roles, username } = res.user
     const user = { _id, createdTime, email, isActive, roles, username }
-    console.log(res.user)
     response.successed(res, user)
   } catch (err) {
     res.status(200).json(new response.fail(err.message))
